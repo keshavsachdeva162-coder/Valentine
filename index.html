@@ -1,43 +1,239 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<title>My Cuitie ❤️</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For My Forever Bestie 💖</title>
+
 <style>
-body{
-background: linear-gradient(to right,#ff758c,#ff7eb3);
-text-align:center;
-font-family:Arial;
-color:white;
+body {
+  margin: 0;
+  font-family: 'Comic Sans MS', cursive;
+  background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+  overflow-x: hidden;
+  text-align: center;
+  color: white;
 }
-a{
-display:inline-block;
-margin:20px;
-padding:15px 25px;
-background:white;
-color:#ff4d6d;
-text-decoration:none;
-border-radius:30px;
-font-size:18px;
+
+.container {
+  padding: 50px 20px;
 }
-.heart{
-font-size:80px;
-animation:beat 1s infinite;
+
+h1 {
+  font-size: 40px;
+  animation: glow 2s infinite alternate;
 }
-@keyframes beat{
-0%{transform:scale(1);}
-50%{transform:scale(1.2);}
-100%{transform:scale(1);}
+
+@keyframes glow {
+  from { text-shadow: 0 0 10px white; }
+  to { text-shadow: 0 0 25px hotpink; }
+}
+
+button {
+  padding: 12px 25px;
+  border-radius: 25px;
+  border: none;
+  margin: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  background: white;
+  color: hotpink;
+  transition: 0.3s;
+}
+
+button:hover {
+  background: hotpink;
+  color: white;
+  transform: scale(1.1);
+}
+
+.section {
+  display: none;
+  margin-top: 30px;
+}
+
+img {
+  width: 250px;
+  border-radius: 20px;
+  margin: 10px;
+  transition: 0.3s;
+}
+
+img:hover {
+  transform: scale(1.1);
+}
+
+input {
+  padding: 10px;
+  border-radius: 20px;
+  border: none;
+}
+
+/* Floating hearts */
+.heart {
+  position: fixed;
+  top: -10px;
+  font-size: 20px;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to { transform: translateY(100vh); }
+}
+
+canvas {
+  margin-top: 20px;
 }
 </style>
 </head>
+
 <body>
 
-<h1>Welcome My Princess 👑💖</h1>
-<div class="heart">❤️</div>
+<div class="container">
+  <h1>Happy Valentine's Day 💖</h1>
+  <h2>To My Most Special Bestie 🥹💕</h2>
 
-<a href="letter.html">💌 Read My Letter</a>
-<a href="memories.html">📸 Our Memories</a>
-<a href="proposal.html">💍 Special Surprise</a>
+  <button onclick="showSection('reasons')">Why You're Special 💌</button>
+  <button onclick="showSection('gallery')">Our Memories 📸</button>
+  <button onclick="showSection('secret')">Secret Page 🔐</button>
+  <button onclick="showSection('letter')">Love Letter 💖</button>
+  <button onclick="showSection('promise')">Forever Promise 💍</button>
+  <button onclick="showSection('celebration')">Celebration 🎆</button>
+
+  <!-- Reasons -->
+  <div id="reasons" class="section">
+    <h2>Why I Love You 💕</h2>
+    <p>You understand me without words 🥹</p>
+    <p>Your smile fixes everything 💗</p>
+    <p>You are my safe place 💞</p>
+    <p>You are my forever bestie 💖</p>
+  </div>
+
+  <!-- Gallery -->
+  <div id="gallery" class="section">
+    <h2>Our Memories 📸</h2>
+    <img src="https://via.placeholder.com/250">
+    <img src="https://via.placeholder.com/250">
+    <img src="https://via.placeholder.com/250">
+  </div>
+
+  <!-- Secret -->
+  <div id="secret" class="section">
+    <h2>Enter Password 💝</h2>
+    <input type="password" id="pass" placeholder="Enter secret word">
+    <button onclick="checkPass()">Unlock 💕</button>
+    <h3 id="message"></h3>
+  </div>
+
+  <!-- Love Letter -->
+  <div id="letter" class="section">
+    <h2>My Heart To Yours 💖</h2>
+    <p id="typing"></p>
+  </div>
+
+  <!-- Promise -->
+  <div id="promise" class="section">
+    <h2>Will You Stay My Bestie Forever? 🥹💞</h2>
+    <button onclick="yesLove()">YES 💖</button>
+    <button onclick="noLove()" id="noBtn">NO 😢</button>
+    <h3 id="promiseMsg"></h3>
+  </div>
+
+  <!-- Celebration -->
+  <div id="celebration" class="section">
+    <h2>Yayyyy 💕 Celebration Time 🎉</h2>
+    <canvas id="fireworks"></canvas>
+  </div>
+
+</div>
+
+<audio autoplay loop>
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// Floating hearts
+function createHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("heart");
+  heart.innerHTML = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 5000);
+}
+setInterval(createHeart, 300);
+
+// Show sections
+function showSection(id) {
+  document.querySelectorAll('.section').forEach(sec => sec.style.display = 'none');
+  document.getElementById(id).style.display = 'block';
+
+  if(id === "letter"){
+    document.getElementById("typing").innerHTML = "";
+    i = 0;
+    typeWriter();
+  }
+}
+
+// Password
+function checkPass() {
+  const password = document.getElementById("pass").value;
+  if(password === "bestie") {
+    document.getElementById("message").innerHTML =
+    "I LOVE YOU FOREVER 💖🥹";
+  } else {
+    document.getElementById("message").innerHTML =
+    "Wrong password 😢";
+  }
+}
+
+// Typing effect
+const text = "You are my safe place, my happiness, my forever bestie. I am so lucky to have you 💖🥹";
+let i = 0;
+function typeWriter() {
+  if (i < text.length) {
+    document.getElementById("typing").innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, 50);
+  }
+}
+
+// Promise
+function yesLove() {
+  document.getElementById("promiseMsg").innerHTML =
+  "YAYYY 💖 You are stuck with me forever 🥹💞";
+}
+
+function noLove() {
+  const btn = document.getElementById("noBtn");
+  btn.style.position = "absolute";
+  btn.style.left = Math.random() * 80 + "%";
+  btn.style.top = Math.random() * 80 + "%";
+}
+
+// Fireworks
+const canvas = document.getElementById("fireworks");
+const ctx = canvas.getContext("2d");
+canvas.width = window.innerWidth;
+canvas.height = 300;
+
+function firework() {
+  ctx.fillStyle = "rgba(0,0,0,0.2)";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  for(let i=0;i<50;i++){
+    ctx.beginPath();
+    ctx.arc(Math.random()*canvas.width,
+            Math.random()*300,
+            3,0,Math.PI*2);
+    ctx.fillStyle = "hsl(" + Math.random()*360 + ",100%,50%)";
+    ctx.fill();
+  }
+}
+setInterval(firework, 500);
+
+</script>
 
 </body>
 </html>
